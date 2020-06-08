@@ -1,0 +1,17 @@
+﻿>> Watermarks instead of lables for text boxes
+>> Textbox only accept numbers
+>> Choose between KG and Lbs
+>> Hovering enter button displays info saying if data already exists for this entry it will be overriden
+>> If data does already exist for entry, warn user asking if they are sure about the entry
+>> Info to user informing them they do not need to fill out all lift values, just what has changed
+>> Wilks is based off either {Highest Lift in past 3 months || Current Lifts}
+>> View increases between specific dates (Datepickers on bottom)
+>> Show current along bottom (Highest lifts/wilks (past month + all time))
+>> Buttons along top for all lifts, bw, total, wilks, each when clicked and unclicked registers that on the chart
+>> Button to view all on chart
+>> Add functionality for OHP (Overhead press) too
+>> Add login functionality
+>> Allow users to add only so many entries per second from one IP Address
+>> Have set famililar colours for each line on the graph so it isn't randomised each time
+>> List box displays date range for past 2 weeks or 1 month (Maybe allow custom at later date)
+>> Currents will simply be appended to their labels

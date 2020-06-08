@@ -16,5 +16,15 @@ namespace PLPT
         {
             InitializeComponent();
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbl_CurrentTitle_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
