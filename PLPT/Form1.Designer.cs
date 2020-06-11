@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms.DataVisualization.Charting;
+﻿using System;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace PLPT
 {
@@ -30,10 +31,9 @@ namespace PLPT
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.datepicker_NewEntry = new System.Windows.Forms.DateTimePicker();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.label1 = new System.Windows.Forms.Label();
             this.txtbox_SquatNewEntry = new System.Windows.Forms.TextBox();
             this.txtbox_DeadliftNewEntry = new System.Windows.Forms.TextBox();
@@ -56,17 +56,9 @@ namespace PLPT
             this.lbl_TotalCurrent = new System.Windows.Forms.Label();
             this.lbl_DeadliftCurrent = new System.Windows.Forms.Label();
             this.lbl_BenchCurrent = new System.Windows.Forms.Label();
+            this.datepicker_NewEntry = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // datepicker_NewEntry
-            // 
-            this.datepicker_NewEntry.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.datepicker_NewEntry.Location = new System.Drawing.Point(12, 68);
-            this.datepicker_NewEntry.Name = "datepicker_NewEntry";
-            this.datepicker_NewEntry.Size = new System.Drawing.Size(200, 27);
-            this.datepicker_NewEntry.TabIndex = 0;
-            this.datepicker_NewEntry.Value = new System.DateTime(2020, 6, 8, 0, 43, 3, 0);
             // 
             // label1
             // 
@@ -105,7 +97,7 @@ namespace PLPT
             // txtbox_BodyweightEntry
             // 
             this.txtbox_BodyweightEntry.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtbox_BodyweightEntry.Location = new System.Drawing.Point(12, 238);
+            this.txtbox_BodyweightEntry.Location = new System.Drawing.Point(12, 241);
             this.txtbox_BodyweightEntry.Name = "txtbox_BodyweightEntry";
             this.txtbox_BodyweightEntry.Size = new System.Drawing.Size(200, 27);
             this.txtbox_BodyweightEntry.TabIndex = 5;
@@ -118,20 +110,21 @@ namespace PLPT
             this.btn_SetNewEntry.TabIndex = 6;
             this.btn_SetNewEntry.Text = "Enter";
             this.btn_SetNewEntry.UseVisualStyleBackColor = true;
+            this.btn_SetNewEntry.Click += new System.EventHandler(this.btn_SetNewEntry_Click);
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart1.Legends.Add(legend3);
             this.chart1.Location = new System.Drawing.Point(316, 111);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(905, 537);
             this.chart1.TabIndex = 7;
             this.chart1.Text = "chart1";
@@ -162,7 +155,6 @@ namespace PLPT
             this.lbl_VisualiseTitle.Size = new System.Drawing.Size(137, 29);
             this.lbl_VisualiseTitle.TabIndex = 10;
             this.lbl_VisualiseTitle.Text = "Visualise:";
-            this.lbl_VisualiseTitle.Click += new System.EventHandler(this.label2_Click);
             // 
             // btn_ViewDeadlift
             // 
@@ -218,7 +210,6 @@ namespace PLPT
             this.lbl_CurrentTitle.Size = new System.Drawing.Size(255, 29);
             this.lbl_CurrentTitle.TabIndex = 16;
             this.lbl_CurrentTitle.Text = "Your Current Best:";
-            this.lbl_CurrentTitle.Click += new System.EventHandler(this.lbl_CurrentTitle_Click);
             // 
             // ListBox_DateRangeForCurrent
             // 
@@ -275,6 +266,17 @@ namespace PLPT
             this.lbl_BenchCurrent.TabIndex = 22;
             this.lbl_BenchCurrent.Text = "Bench";
             // 
+            // datepicker_NewEntry
+            // 
+            this.datepicker_NewEntry.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.datepicker_NewEntry.Location = new System.Drawing.Point(12, 68);
+            this.datepicker_NewEntry.MaxDate = new System.DateTime(2109, 12, 27, 0, 0, 0, 0);
+            this.datepicker_NewEntry.MinDate = new System.DateTime(1919, 12, 25, 0, 0, 0, 0);
+            this.datepicker_NewEntry.Name = "datepicker_NewEntry";
+            this.datepicker_NewEntry.Size = new System.Drawing.Size(200, 27);
+            this.datepicker_NewEntry.TabIndex = 0;
+            this.datepicker_NewEntry.Value = new System.DateTime(2020, 6, 11, 20, 23, 58, 794);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -312,8 +314,6 @@ namespace PLPT
         }
 
         #endregion
-
-        private System.Windows.Forms.DateTimePicker datepicker_NewEntry;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtbox_SquatNewEntry;
         private System.Windows.Forms.TextBox txtbox_DeadliftNewEntry;
@@ -336,6 +336,7 @@ namespace PLPT
         private System.Windows.Forms.Label lbl_TotalCurrent;
         private System.Windows.Forms.Label lbl_DeadliftCurrent;
         private System.Windows.Forms.Label lbl_BenchCurrent;
+        private System.Windows.Forms.DateTimePicker datepicker_NewEntry;
     }
 }
 
