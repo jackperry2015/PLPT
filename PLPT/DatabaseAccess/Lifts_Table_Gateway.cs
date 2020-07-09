@@ -1,5 +1,6 @@
 ﻿using PLPT.Models;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,6 +14,7 @@ namespace PLPT.DatabaseAccess
             new SqlConnection(ConfigurationManager.
             ConnectionStrings["PLPT_Database"].ConnectionString);
 
+        #region Stored Procedures
         // Adding new lifts row into lifts table
         public void InsertNewLifts(Lifts _lifts)
         {
@@ -39,5 +41,72 @@ namespace PLPT.DatabaseAccess
                 return;
             }
         }
+
+        public DateTime FindEarliestLiftEntryForUser(string Username)
+        {
+            DateTime earliestLiftEntry;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Find_Earliest_Lifts_Entry", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.Add(new SqlParameter("@Username", Username));
+                cmd.Parameters.Add("@retValueDate", System.Data.SqlDbType.DateTime).Direction =
+                    System.Data.ParameterDirection.ReturnValue;
+                cmd.ExecuteNonQuery();
+                earliestLiftEntry = (DateTime)cmd.Parameters["@retValueDate"].Value;
+                conn.Close();
+            }
+            catch
+            {
+                return new DateTime();
+            }
+
+            return earliestLiftEntry;
+        }
+
+        public Lifts[] GetAllLiftsForAUser(string Username)
+        {
+            DataSet liftsDataset = new DataSet();
+            try
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("Get_All_Lifts", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                SqlDataAdapter da = new SqlDataAdapter();
+                cmd.Parameters.Add(new SqlParameter("@Username", Username));
+                cmd.ExecuteNonQuery();
+                da.SelectCommand = cmd;
+                da.Fill(liftsDataset);
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            List<Lifts> lifts = new List<Lifts>();
+            DataTable liftsDataTable = liftsDataset.Tables[0];
+
+            foreach(DataRow row in liftsDataTable.Rows)
+            {
+                lifts.Add(new Lifts(row["Username"].ToString(),
+                    Convert.ToDateTime(row["Date"]),
+                    Convert.ToInt32(row["Squat"]),
+                    Convert.ToInt32(row["Bench"]),
+                    Convert.ToInt32(row["Deadlift"]),
+                    Convert.ToInt32(row["Bodyweight"]),
+                    Convert.ToInt32(row["Total"]),
+                    Convert.ToInt32(row["Wilks"])
+                    ));
+            }
+            return lifts.ToArray();
+        }
+        #endregion
     }
 }

@@ -4,6 +4,7 @@ namespace PLPT.Models
 {
     public class Lifts
     {
+        // Model that makes up a lifts entry
         public Lifts(string _username, DateTime _date, int _squat,
             int _bench, int _deadlift, int _bodyweight, int _total,
             int _wilks)
@@ -17,7 +18,6 @@ namespace PLPT.Models
             Total = _total;
             Wilks = _wilks;
         }
-
         public string Username { get; set; }
         public DateTime Date { get; set; }
         public int Squat { get; set; }
