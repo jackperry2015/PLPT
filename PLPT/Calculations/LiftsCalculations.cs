@@ -15,10 +15,7 @@ namespace PLPT.Calculations
 
             foreach(Lifts lift in lifts)
             {
-                if(lift.Date > datePastDays)
-                {
-                    liftsPastDays.Add(lift);
-                }
+                if(lift.Date > datePastDays) liftsPastDays.Add(lift);
             }
             return liftsPastDays.ToArray();
         }
@@ -28,18 +25,9 @@ namespace PLPT.Calculations
         {
             Lifts[] liftsInSelectedDateRange = null;
 
-            if (dateRange == "Past Week")
-            {
-                liftsInSelectedDateRange = Get_Lifts_AfterDate(lifts, 7);
-            }
-            if (dateRange == "Past Month")
-            {
-                liftsInSelectedDateRange = Get_Lifts_AfterDate(lifts, 30);
-            }
-            if (dateRange == "All Time")
-            {
-                liftsInSelectedDateRange = lifts;
-            }
+            if (dateRange == "Past Week") liftsInSelectedDateRange = Get_Lifts_AfterDate(lifts, 7);
+            if (dateRange == "Past Month") liftsInSelectedDateRange = Get_Lifts_AfterDate(lifts, 30);
+            if (dateRange == "All Time") liftsInSelectedDateRange = lifts;
 
             return new BestLifts(
                 liftsInSelectedDateRange.Max(x => x.Squat),
