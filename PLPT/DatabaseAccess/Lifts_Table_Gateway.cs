@@ -1,9 +1,9 @@
 ﻿using PLPT.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace PLPT.DatabaseAccess
 {
@@ -21,7 +21,7 @@ namespace PLPT.DatabaseAccess
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("Add_New_Lifts", conn)
+                var cmd = new SqlCommand("Add_New_Lifts", conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -48,7 +48,7 @@ namespace PLPT.DatabaseAccess
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("Find_Earliest_Lifts_Entry", conn)
+                var cmd = new SqlCommand("Find_Earliest_Lifts_Entry", conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -74,11 +74,11 @@ namespace PLPT.DatabaseAccess
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("Get_All_Lifts", conn)
+                var cmd = new SqlCommand("Get_All_Lifts", conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                SqlDataAdapter da = new SqlDataAdapter();
+                var da = new SqlDataAdapter();
                 cmd.Parameters.Add(new SqlParameter("@Username", Username));
                 cmd.ExecuteNonQuery();
                 da.SelectCommand = cmd;
@@ -90,22 +90,13 @@ namespace PLPT.DatabaseAccess
                 return null;
             }
 
-            List<Lifts> lifts = new List<Lifts>();
-            DataTable liftsDataTable = liftsDataset.Tables[0];
+            var liftsDataTable = liftsDataset.Tables[0];
 
-            foreach(DataRow row in liftsDataTable.Rows)
-            {
-                lifts.Add(new Lifts(row["Username"].ToString(),
-                    Convert.ToDateTime(row["Date"]),
-                    Convert.ToInt32(row["Squat"]),
-                    Convert.ToInt32(row["Bench"]),
-                    Convert.ToInt32(row["Deadlift"]),
-                    Convert.ToInt32(row["Bodyweight"]),
-                    Convert.ToInt32(row["Total"]),
-                    Convert.ToInt32(row["Wilks"])
-                    ));
-            }
-            return lifts.ToArray();
+            return (from DataRow row in liftsDataTable.Rows select new Lifts
+                (row["Username"].ToString(), Convert.ToDateTime(row["Date"]),
+                Convert.ToInt32(row["Squat"]), Convert.ToInt32(row["Bench"]),
+                Convert.ToInt32(row["Deadlift"]), Convert.ToInt32(row["Bodyweight"]),
+                Convert.ToInt32(row["Total"]), Convert.ToInt32(row["Wilks"]))).ToArray();
         }
         #endregion
     }

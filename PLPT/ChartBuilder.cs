@@ -23,13 +23,10 @@ namespace PLPT
         // Method to pre-generate series with no data depending on options chosen
         private void Generate_EmptySeries(CheckedListBox optionsChosen)
         {
-            int i = 0;
+            var i = 0;
             foreach(string item in optionsChosen.CheckedItems)
             {
-                Series newSeries = new Series();
-                newSeries.ChartType = SeriesChartType.Line;
-
-                newSeries.Name = item;
+                var newSeries = new Series {ChartType = SeriesChartType.Line, Name = item};
                 allSeries[i] = newSeries;
                 i++;
             }
@@ -38,9 +35,9 @@ namespace PLPT
         // Given users lifts and users chosen options, populates series' for those options
         private void Fill_EmptySeries_WithLifts(Lifts[] allLifts, CheckedListBox optionsChosen)
         {
-            foreach(Lifts lift in allLifts)
+            foreach(var lift in allLifts)
             {
-                foreach (Series series in allSeries)
+                foreach (var series in allSeries)
                 {
                     if (series.Name == "Squat") series.Points.AddXY(lift.Date, lift.Squat);
                     if (series.Name == "Bench") series.Points.AddXY(lift.Date, lift.Bench);

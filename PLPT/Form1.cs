@@ -16,11 +16,11 @@ namespace PLPT
         public bool IsMale = false;
 
         // Functionality class objects
-        private readonly Lifts_Table_Gateway liftsGateway = new Lifts_Table_Gateway();
-        private readonly WilksCoefficient WilksCalculator = new WilksCoefficient();
-        private readonly LiftsCalculations liftsCalculator = new LiftsCalculations();
-        private readonly ChartBuilder charting = new ChartBuilder();
-        private readonly NewEntryValidation newEntryValidation = new NewEntryValidation();
+        private readonly Lifts_Table_Gateway _liftsGateway = new Lifts_Table_Gateway();
+        private readonly WilksCoefficient _wilksCalculator = new WilksCoefficient();
+        private readonly LiftsCalculations _liftsCalculator = new LiftsCalculations();
+        private readonly ChartBuilder _charting = new ChartBuilder();
+        private readonly NewEntryValidation _newEntryValidation = new NewEntryValidation();
 
         // Holds all of the users lifts
         public Lifts[] allLifts;
@@ -31,7 +31,7 @@ namespace PLPT
             InitializeComponent();
             InitializeTxtBoxWaterMarks();
             datepicker_NewEntry.Value = DateTime.Today;
-            allLifts = liftsGateway.GetAllLiftsForAUser(exampleUsername);
+            allLifts = _liftsGateway.GetAllLiftsForAUser(exampleUsername);
         }
 
         #region Form1:: New entry functionality
@@ -41,8 +41,8 @@ namespace PLPT
         {
             if (CheckNewEntryIsValid())
             {
-                liftsGateway.InsertNewLifts(GetNewLiftsEntry(exampleUsername, IsMale));
-                allLifts = liftsGateway.GetAllLiftsForAUser(exampleUsername);
+                _liftsGateway.InsertNewLifts(GetNewLiftsEntry(exampleUsername, IsMale));
+                allLifts = _liftsGateway.GetAllLiftsForAUser(exampleUsername);
                 ClearEntryForm();
             }
             else pic_NewEntryError.Visible = true;
@@ -51,15 +51,15 @@ namespace PLPT
         private Lifts GetNewLiftsEntry(string username, bool isMale)
         {
             // Get values from form into variables
-            int Squat = Int32.Parse(txtbox_SquatNewEntry.Text);
-            int Bench = Int32.Parse(txtbox_BenchNewEntry.Text);
-            int Deadlift = Int32.Parse(txtbox_DeadliftNewEntry.Text);
-            int Bodyweight = Int32.Parse(txtbox_BodyweightEntry.Text);
-            int Total = Squat + Bench + Deadlift;
-            int Wilks = WilksCalculator.CalculateCoefficient(Total, Bodyweight, isMale);
+            var Squat = Int32.Parse(txtbox_SquatNewEntry.Text);
+            var Bench = Int32.Parse(txtbox_BenchNewEntry.Text);
+            var Deadlift = Int32.Parse(txtbox_DeadliftNewEntry.Text);
+            var Bodyweight = Int32.Parse(txtbox_BodyweightEntry.Text);
+            var Total = Squat + Bench + Deadlift;
+            var Wilks = _wilksCalculator.CalculateCoefficient(Total, Bodyweight, isMale);
 
             // Make new lifts object
-            Lifts lifts = new Lifts(username, datepicker_NewEntry.Value.Date,
+            var lifts = new Lifts(username, datepicker_NewEntry.Value.Date,
                 Squat, Bench, Deadlift, Bodyweight, Total, Wilks);
 
             return lifts;
@@ -76,7 +76,7 @@ namespace PLPT
             string dateRange = ListBox_DateRangeForCurrent.GetItemText
                 (ListBox_DateRangeForCurrent.SelectedItem);
 
-            BestLifts bestLifts = liftsCalculator.Get_Lifts_BestLifts(allLifts, dateRange);
+            BestLifts bestLifts = _liftsCalculator.Get_Lifts_BestLifts(allLifts, dateRange);
 
             lbl_SquatCurrent.Text = bestLifts.Squat.ToString();
             lbl_BenchCurrent.Text = bestLifts.Bench.ToString();
@@ -92,7 +92,7 @@ namespace PLPT
         private void btn_LoadGraph_Click(object sender, EventArgs e)
         {
             Series[] allSeries =
-                charting.Get_SeriesData_ForChart(checkBoxList_ValueToDisplay, allLifts);
+                _charting.Get_SeriesData_ForChart(checkBoxList_ValueToDisplay, allLifts);
 
             chart1.Series.Clear();
 
@@ -203,27 +203,27 @@ namespace PLPT
         // Checks values in new entry inputs are valid
         private bool CheckNewEntryIsValid()
         {
-            if (!newEntryValidation.NewEntryDateChecker(datepicker_NewEntry.Value))
+            if (!_newEntryValidation.NewEntryDateChecker(datepicker_NewEntry.Value))
             {
                 lbl_NewEntryError.Text = "Enter Valid Date!";
                 return false;
             }
-            if (!newEntryValidation.NewEntryIntChecker(txtbox_SquatNewEntry.Text))
+            if (!_newEntryValidation.NewEntryIntChecker(txtbox_SquatNewEntry.Text))
             {
                 lbl_NewEntryError.Text = "Enter Squat Correctly!";
                 return false;
             }
-            if (!newEntryValidation.NewEntryIntChecker(txtbox_BenchNewEntry.Text))
+            if (!_newEntryValidation.NewEntryIntChecker(txtbox_BenchNewEntry.Text))
             {
                 lbl_NewEntryError.Text = "Enter Bench Correctly!";
                 return false;
             }
-            if (!newEntryValidation.NewEntryIntChecker(txtbox_DeadliftNewEntry.Text))
+            if (!_newEntryValidation.NewEntryIntChecker(txtbox_DeadliftNewEntry.Text))
             {
                 lbl_NewEntryError.Text = "Enter Deadlift Correctly!";
                 return false;
             }
-            if (!newEntryValidation.NewEntryIntChecker(txtbox_BodyweightEntry.Text))
+            if (!_newEntryValidation.NewEntryIntChecker(txtbox_BodyweightEntry.Text))
             {
                 lbl_NewEntryError.Text = "Enter Bodyweight Correctly!";
                 return false;
