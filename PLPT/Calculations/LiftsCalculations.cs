@@ -1,6 +1,5 @@
 ﻿using PLPT.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PLPT.Calculations
@@ -10,14 +9,9 @@ namespace PLPT.Calculations
         // Get all lifts entered by a user after a specified date
         public Lifts[] Get_Lifts_AfterDate(Lifts[] lifts, int Days)
         {
-            List<Lifts> liftsPastDays = new List<Lifts>();
-            DateTime datePastDays = DateTime.Now.AddDays(-Days);
+            var datePastDays = DateTime.Now.AddDays(-Days);
 
-            foreach(Lifts lift in lifts)
-            {
-                if(lift.Date > datePastDays) liftsPastDays.Add(lift);
-            }
-            return liftsPastDays.ToArray();
+            return lifts.Where(lift => lift.Date > datePastDays).ToArray();
         }
 
         // Get all best lifts within an array of Lifts given dateRange
@@ -25,9 +19,18 @@ namespace PLPT.Calculations
         {
             Lifts[] liftsInSelectedDateRange = null;
 
-            if (dateRange == "Past Week") liftsInSelectedDateRange = Get_Lifts_AfterDate(lifts, 7);
-            if (dateRange == "Past Month") liftsInSelectedDateRange = Get_Lifts_AfterDate(lifts, 30);
-            if (dateRange == "All Time") liftsInSelectedDateRange = lifts;
+            switch (dateRange)
+            {
+                case "Past Week":
+                    liftsInSelectedDateRange = Get_Lifts_AfterDate(lifts, 7);
+                    break;
+                case "Past Month":
+                    liftsInSelectedDateRange = Get_Lifts_AfterDate(lifts, 30);
+                    break;
+                case "All Time":
+                    liftsInSelectedDateRange = lifts;
+                    break;
+            }
 
             return new BestLifts(
                 liftsInSelectedDateRange.Max(x => x.Squat),

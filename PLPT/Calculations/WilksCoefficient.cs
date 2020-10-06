@@ -7,7 +7,7 @@ namespace PLPT
     public class WilksCoefficient
     {
         // Coefficient values to be used in male lifters
-        readonly double[] maleCoef = new double[6] 
+        private readonly double[] _maleCoef = new double[6] 
         {
         -216.0475144,
         16.2606339,
@@ -18,7 +18,7 @@ namespace PLPT
         };
 
         // Coefficient values to be used in female lifters
-        readonly double[] femaleCoef = new double[6]
+        private readonly double[] _femaleCoef = new double[6]
         {
         594.31747775582,
         -27.23842536447,
@@ -40,18 +40,18 @@ namespace PLPT
             double coeff = 0;
 
             // Decides which coefficient values to use based on gender
-            double[] genderSpecificValues = _isMale == true ? maleCoef : femaleCoef;
+            var genderSpecificValues = _isMale == true ? _maleCoef : _femaleCoef;
 
             // Loops through the values against bodyweight to the power of i
-            for (int i = 0; i <= 5; i++)
+            for (var i = 0; i <= 5; i++)
             {
                 coeff += i == 0 ? genderSpecificValues[i] : (genderSpecificValues[i] * Math.Pow(_bodyweight, i));
             }
 
             // Divide final coefficient against 500 and multiply by total for final Wilks score
-            int Wilks = Int32.Parse(Math.Ceiling(_total * (500 / coeff)).ToString());
+            var wilks = Int32.Parse(Math.Ceiling(_total * (500 / coeff)).ToString());
 
-            return Wilks;
+            return wilks;
         }
     }
 }
